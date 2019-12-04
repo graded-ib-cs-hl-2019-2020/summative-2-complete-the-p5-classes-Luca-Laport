@@ -19,4 +19,5 @@ declare global {
     mousePressed: () => void;
     mouseReleased: () => void;
   }
+
 }

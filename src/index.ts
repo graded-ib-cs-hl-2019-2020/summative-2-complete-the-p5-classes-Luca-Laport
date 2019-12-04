@@ -32,36 +32,48 @@ let snowflakes: Snowflake[] = [];
 let bubbles: Bubble[] = [];
 let clickedIndex = -1;
 
+
+
 function setup() {
     let numBubbles = 10;
     let numBalls = 10;
     let numFlakes = 10;
+
     createCanvas(500, 500);
-    for (/* TODO REQUIRED - fill this in*/) {
-        balls[i] = new Ball(random(25, width - 25), random(25, height - 25), random(10, 50));
-        /* TODO OPTIONAL - make the balls a random color */
+    for (let i = 0; i < numBalls; i++) {
+        balls.push(new Ball(random(25, width - 25), random(25, height - 25), random(10, 50), random_color(), "black"));
+        /* TODO OPTIONAL - make the balls a random color DONE */
     }
-    for (/* TODO REQUIRED  - fill this in*/) {
-        /* TODO REQUIRED - add the bubbles */
+    for (let i = 0; i < numBubbles; i++) {
+        bubbles.push(new Bubble(random(25, width - 25), random(25, height - 25), random(10, 50), "#ffffff80", "purple"));
+
     }
-    for (/* TODO REQUIRED */) {
-        /* TODO REQUIRED - add the snowflakes */
+    for (let i = 0; i < numFlakes; i++) {
+        snowflakes.push(new Snowflake(random(25, width - 25), random(25, height - 25), random(10, 50), "white"));
     }
 }
 
 function draw() {
     background("skyblue");
-    for (/* TODO REQUIRED*/) {
+    for (let i = 0; i < balls.length; i++) {
         balls[i].draw();
         balls[i].move();
     }
-    /* TODO REQUIRED - Draw and move the bubbles and flakes */
+    for (let i = 0; i < bubbles.length; i++) {
+        bubbles[i].draw();
+        bubbles[i].move();
+    }
+    for (let i = 0; i < snowflakes.length; i++) {
+        snowflakes[i].draw();
+        snowflakes[i].move();
+    }
+
 }
 
 /* TODO OPTIONAL - add a function mousePressed() that either stops or starts objects from moving
    if the mouse is pressed while it is touching them. So you could use this (if careful!) to stop all of the
    objects from moving then start them back up again. The Ball class has some helper functions that will
-   help you with this, but you'll need to add them to the other classes.
+   help you with this, but you'll need to add them to the other classes. DONE
 */
 
 // do not edit the below lines
@@ -69,3 +81,73 @@ window.draw = draw;
 window.setup = setup;
 window.mousePressed = mousePressed;
 window.mouseReleased = mouseReleased;
+window.onmousemove = onMouse;
+
+//function to catch mouse motion event
+function onMouse(evt: MouseEvent) {
+    mouseX = evt.clientX;
+    mouseY = evt.clientY;
+}
+function mousePressed() {
+    //Staring checking if touching a ball
+    //Go over all balls created
+    for (let i = 0; i < balls.length; i++) {
+        // check if mouse is over the ball
+        if (balls[i].touchingMouse()) {
+            // If balls is not moving
+            if (balls[i].isStopped()) {
+                // make it moving
+                balls[i].go();
+            }
+            else {
+                // else ( if moving)
+                balls[i].stop();
+
+            }
+        }
+    }
+
+    for (let i = 0; i < bubbles.length; i++) {
+        if (bubbles[i].touchingMouse()) {
+            if (bubbles[i].isStopped()) {
+                bubbles[i].go();
+            }
+            else {
+                bubbles[i].stop();
+            }
+        }
+    }
+
+    for (let i = 0; i < snowflakes.length; i++) {
+        if (snowflakes[i].touchingMouse()) {
+            if (snowflakes[i].isStopped()) {
+                snowflakes[i].go();
+            }
+            else {
+                snowflakes[i].stop();
+            }
+        }
+    }
+
+
+
+}
+function mouseReleased() {
+
+}
+
+function random(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function random_color(): string {
+    //random red intesity between 0 and 255
+    let r: number = random(0, 255);
+    // random green intessity
+    let g: number = random(0, 255);
+    //random blue intensity
+    let b: number = random(0, 255);
+    //join the three intensities to form a new color
+    let random_color = "rgb(" + r + "," + g + "," + b + ")";
+    return random_color
+}

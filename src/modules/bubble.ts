@@ -1,15 +1,22 @@
 
 export class Bubble {
-    private x: number;
-    private y: number;
-    private size: number;
-    private xSpeed: number;
-    private ySpeed: number;
+    private x: number; // x of the circle center point
+    private y: number; // y of the circle center point
+    private size: number; // the circle's radius
+    private xSpeed: number = random(-10, 10);
+    private ySpeed: number = random(1, 3);
     private stopped: boolean = false;
-    private color: string;
-    private borderColor: string;
+    private color: string = "blue"; // the color of the bubble
+    private borderColor: string = "purple"; // the color bubble's boarder
+    // to build the bubble
+    constructor(x: number, y: number, size: number, color: string, borderColor: string) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.color = color;
+        this.borderColor = borderColor;
+    }
 
-    /* TODO REQUIRED - What's missing here? Add it! */
 
     public stop() {
         this.stopped = true;
@@ -20,16 +27,34 @@ export class Bubble {
     }
 
     public draw(): void {
-        /* TODO REQUIRED - draw the bubbles */
+        // to fill in the bubbles color
+        fill(this.color);
+        // to add the bubbles borders with a color
+        stroke(this.borderColor);
+        // draw the bubble
+        ellipse(this.x, this.y, this.size);
+
+
     }
 
     public move(): void {
-        /* TODO REQUIRED - Make the bubbles move as long as they aren't stopped. Model after ball behavior. */
-        /* The doBorderBehavior is built in for you below. */
+        if (this.stopped == false) {
+            this.y = this.y - this.ySpeed;
+            this.doBorderBehavior();
+        }
+    }
+
+    // Return if ball is moving or not
+    public isStopped(): boolean {
+        return this.stopped;
     }
 
     public distFromMouse(): number {
         return dist(this.x, this.y, mouseX, mouseY);
+    }
+
+    public touchingMouse(): boolean {
+        return this.distFromMouse() < this.size / 2;
     }
 
     /* This border behavior implements a wrap, so bubbles will flip over to the other side */

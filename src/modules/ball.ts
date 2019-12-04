@@ -9,10 +9,14 @@ export class Ball {
   private color: string = "red";
   private borderColor: string = "black";
 
-  /* TODO REQUIRED - add accessors and mutators for x, y, size, color, and borderColor */
-  constructor(x: number, y: number, size: number) {
-    /* TODO REQUIRED = Build your constructor */
-    /* TODO OPTIONAL - add optional parameters to set color and borderColor on creation of the object */
+  constructor(x: number, y: number, size: number, color: string, borderColor: string) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.color = color;
+    this.borderColor = borderColor;
+
+    /* TODO OPTIONAL - add optional parameters to set color and borderColor on creation of the object DONE */
   }
 
   public stop() {
@@ -22,11 +26,19 @@ export class Ball {
   public go() {
     this.stopped = false;
   }
+  // Return if ball is moving or not
+  public isStopped(): boolean {
+    return this.stopped;
+  }
 
   public draw(): void {
+    // to fill in the bubbles color
     fill(this.color);
+    // to add the bubbles borders with a color
     stroke(this.borderColor);
+    // draw the bubble
     ellipse(this.x, this.y, this.size);
+
   }
 
   public move(): void {
